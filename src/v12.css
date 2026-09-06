@@ -1,0 +1,136 @@
+/* 1.2 compact desktop skin: neutral surfaces, fine rules and near-square cards. */
+main{
+  --row:calc(56px * var(--font-scale,1));
+  color:#343a3c;
+  background:rgba(226,228,230,var(--surface-alpha));
+  border:1px solid rgba(255,255,255,.62);
+  border-radius:8px;
+  box-shadow:inset 0 1px rgba(255,255,255,.36);
+}
+.titlebar{height:34px;padding:0 9px;position:relative;border-bottom:1px solid #aeb4b744;background:#d7dadd66}
+.brand{min-width:24px;gap:0}
+.app-mark{display:block;width:20px;height:20px;border-radius:3px}
+.main-nav{position:absolute;left:50%;top:0;transform:translateX(-50%);gap:0}
+.main-nav button{min-width:58px;padding:0 13px;font-size:11px;color:#6c7376}
+.main-nav button.active{color:#334e48}
+.main-nav button.active:after{left:12px;right:12px;height:2px;border-radius:0;background:#577e75}
+.main-nav b{top:2px;right:0;min-width:14px;height:14px;line-height:14px;font-size:8px;border-radius:2px;background:#a96663}
+.window-actions{gap:1px}
+.window-actions button{height:25px;min-width:27px;border-radius:2px;font-size:11px}
+.window-actions button span{font-size:9px}
+.window-actions button:hover,.window-actions .selected{background:#bdc4c6}
+
+.compactbar{height:44px;grid-template-columns:minmax(160px,1fr) auto minmax(160px,1fr);gap:8px;padding:4px 12px;border-bottom:1px solid #b5bbbd80;background:#dde0e266}
+.week-summary{gap:7px}
+.week-summary strong{font-size:15px;font-weight:620}
+.week-summary span{font-size:9px;color:#70777a}
+.week-summary small{font-size:8px;color:#91979a}
+.week-nav.compact{gap:2px}
+.week-nav.compact button,.week-nav.compact select{height:26px;padding:0 8px;border-radius:2px;border-color:#b9bec080;background:#eef0f1b8;font-size:10px}
+.week-nav.compact button:first-child,.week-nav.compact button:nth-child(3){font-size:17px}
+.compact-actions{gap:9px;font-size:9px}
+.sync-pill{height:25px;padding:0 7px;border-radius:2px;background:#cdd8d4}
+.sync-pill i{width:5px;height:5px;margin-right:4px}
+.problembar{margin:4px 9px 0;padding:5px 8px;border-radius:2px;font-size:9px}
+.compact-calendar{margin-top:3px}
+.calendar-scroll{margin-left:8px;margin-right:8px;padding:0 0 4px}
+.calendar-head,.calendar-body{grid-template-columns:54px repeat(7,minmax(0,1fr))}
+.calendar-head{min-height:32px;border-radius:0;background:#d8dbdd;border-bottom-color:#aeb5b8}
+.calendar-head>div{gap:0;font-size:10px;color:#656c6f;border-left:1px solid #b7bdc066}
+.calendar-head>div:first-child{border-left:0}
+.calendar-head span{font-weight:600;letter-spacing:.2px}
+.calendar-head .today{border-radius:0;background:#c9d5d1;color:#315f54;box-shadow:inset 0 -2px #638d82}
+.calendar-head .time-label{font-size:8px;color:#7e8588}
+.calendar-head b,.calendar-head em{display:none}
+.period{gap:4px;padding-left:3px;border-top-color:#aeb5b844}
+.period b{font-size:12px;color:#697174}
+.period span{font-size:7px;color:#8b9295}
+.day-column{border-left-color:#aeb5b855}
+.day-column.today{background:#becdc722}
+.grid-line{border-top-color:#aeb5b844}
+.break{border-top-color:#a3acae99}
+.course-group{margin:1px;gap:1px}
+.current-courses{gap:1px}
+.course{border-radius:1px;padding:5px 5px 4px;gap:2px;border-color:#ffffff4d;box-shadow:none;transition:filter .12s}
+.course strong{line-height:1.27;font-weight:620}
+.course-time{font-size:8px;letter-spacing:.1px}
+.room{font-size:calc(var(--base-font) - 1px);margin-top:2px}
+.teacher{font-size:calc(var(--base-font) - 2px)}
+.campus{font-size:8px}
+.mint{background:#c9ddd4;color:#355a4e}
+.blue{background:#cbd9e2;color:#425c6b}
+.lavender{background:#d6d2e1;color:#5f5874}
+.peach{background:#e3d5ca;color:#765f50}
+.rose{background:#e2d0d4;color:#76565e}
+.sand{background:#dfdccb;color:#6d6957}
+.course.inactive{background:#d5d8d899;color:#7d8383;border:1px dashed #bfc4c3;gap:3px}
+.inactive-fold{border-radius:1px;line-height:16px;background:#ced2d1;color:#727979}
+.compact-footer{height:30px;padding:4px 11px;border-top-color:#b0b7b966}
+.compact-footer .unscheduled{font-size:9px;gap:6px}
+.unscheduled>b{border-radius:1px;padding:1px 4px;background:#cbd0d0}
+.schedule-count{font-size:8px;color:#7f8789}
+.global-error{top:38px;border-radius:2px}
+
+.todo-view{grid-template-columns:164px minmax(0,1fr)}
+.todo-sidebar{padding:16px 10px;border-right-color:#afb6b977;background:#d4d7d988}
+.todo-sidebar h2{font-size:16px;margin-bottom:2px}
+.todo-sidebar p{font-size:9px;color:#7b8386}
+.todo-sidebar nav{gap:1px;margin-top:15px}
+.todo-sidebar nav button,.tag-filter button{padding:7px 8px;border-radius:1px;font-size:10px;color:#626a6d}
+.todo-sidebar nav button.active,.tag-filter button.active{background:#c2ccc9;color:#324f48}
+.todo-sidebar nav b{font-size:8px;border-radius:1px;padding:1px 5px;background:#e4e6e6}
+.tag-filter{margin-top:17px;gap:1px}
+.tag-filter label{font-size:8px;padding:0 8px 5px}
+.tag-filter button{padding:5px 8px;font-size:9px}
+.todo-content{padding:11px 14px 0}
+.todo-heading{min-height:34px}
+.todo-heading h1{font-size:19px;margin:1px 0 7px}
+.todo-heading .eyebrow{font-size:8px;letter-spacing:.7px}
+.new-task{padding:6px 9px;border-radius:2px;font-size:10px;background:#607f77}
+.quick-add{height:34px;border-radius:2px;border-color:#afb6b988;background:#eef0f1b8;box-shadow:none}
+.quick-add button{width:32px;font-size:16px}
+.quick-add input{font-size:11px;padding-right:9px}
+.todo-tools{gap:5px;padding:7px 0}
+.todo-tools input,.todo-tools select{border-color:#b4babc88;background:#e9ebec99;border-radius:2px;padding:5px 7px;font-size:9px}
+.todo-list{padding-bottom:12px;border-top:1px solid #afb6b977}
+.todo-card{min-height:48px;margin:0;border:0;border-bottom:1px solid #afb6b766;border-left:3px solid #879f99;border-radius:0;background:#e7e9eab0;grid-template-columns:32px minmax(0,1fr) minmax(70px,auto) 34px 25px}
+.todo-card.priority-high{border-left-color:#ad6b68}
+.todo-card.priority-medium{border-left-color:#b7955d}
+.todo-check{width:15px;height:15px;border-radius:1px;font-size:9px;line-height:12px;border-color:#7e8987}
+.todo-main{padding:7px 5px}
+.todo-main strong{font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.todo-meta{gap:5px;margin-top:3px;font-size:8px;white-space:nowrap;overflow:hidden}
+.todo-meta span{padding:0;background:transparent;border-radius:0;color:#7a8284}
+.todo-meta .course-chip{background:transparent;color:#52736b}
+.todo-main p{margin:3px 0 0;font-size:8px;line-height:1.3}
+.todo-due{font-size:9px;color:#747c7f;text-align:right;white-space:nowrap;padding:0 7px}
+.todo-due.overdue{color:#a25854;font-weight:600}
+.priority-label{font-size:8px;padding:2px 4px;border-radius:1px;background:#d5d9d8;color:#747b7b}
+.priority-label.high{background:#dfc9c8;color:#8c504d}
+.priority-label.medium{background:#e2d8c5;color:#806837}
+.todo-delete{font-size:15px}
+.todo-empty>span{border-radius:2px;background:#cbd4d1}
+.todo-error{border-radius:2px}
+.modal{border-radius:7px;background:#eceeef;border-color:#f8f8f8}
+.todo-editor input,.todo-editor textarea,.todo-editor select{border-radius:2px;background:#f5f6f6;border-color:#bbc0c2}
+.editor-actions button,.editor-actions .primary,.settings>button:not(.modal-close),.primary{border-radius:3px}
+
+@media(max-width:960px){
+  main{--row:calc(58px * var(--font-scale,1))}
+  .compactbar{height:45px;padding:4px 8px;grid-template-columns:minmax(52px,1fr) auto auto}
+  .week-summary span,.week-summary small{display:none}
+  .compact-actions{display:flex;gap:6px}
+  .main-nav button{min-width:52px;padding:0 10px}
+  .calendar-head,.calendar-body{grid-template-columns:48px repeat(7,minmax(0,1fr))}
+  .course{padding:4px}
+}
+@media(max-width:900px){
+  .todo-view{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
+  .todo-sidebar{padding:5px 9px;gap:8px}
+  .todo-sidebar nav{gap:1px}
+  .todo-sidebar nav button{min-width:65px;padding:5px 7px}
+  .todo-content{padding:8px 9px 0}
+  .todo-heading h1{font-size:17px}
+  .todo-card{grid-template-columns:28px minmax(0,1fr) minmax(62px,auto) 30px 22px}
+  .todo-due{font-size:8px;padding:0 4px}
+}

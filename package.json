@@ -1,0 +1,19 @@
+{
+  "name": "weekdesk", "version": "1.2.0", "private": true,
+  "description": "南京中医药大学桌面周课表", "author": "Weekdesk", "main": "dist-electron/main.cjs",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build && node scripts/build.mjs",
+    "test": "tsx --test tests/*.test.ts",
+    "start": "electron .",
+    "package": "npm run build && electron-builder --win nsis --x64"
+  },
+  "dependencies": {"react":"^19.1.0","react-dom":"^19.1.0"},
+  "devDependencies": {"@types/react":"^19.1.0","@types/react-dom":"^19.1.0","@types/node":"^24.0.0","@vitejs/plugin-react":"^4.5.0","vite":"^6.3.0","typescript":"^5.8.0","electron":"^40.0.0","electron-builder":"^26.0.0","esbuild":"^0.25.0","tsx":"^4.20.0","jsdom":"^26.1.0","@types/jsdom":"^21.1.0"},
+  "build": {
+    "appId":"cn.local.weekdesk", "productName":"周序课表", "directories":{"output":"release"}, "electronDist":"node_modules/electron/dist",
+    "files":["dist/**/*","dist-electron/**/*","package.json"],
+    "win":{"target":"nsis","icon":"assets/icon.ico","signAndEditExecutable":false},
+    "nsis":{"oneClick":false,"perMachine":false,"allowToChangeInstallationDirectory":true,"createDesktopShortcut":true,"shortcutName":"周序课表","artifactName":"Weekdesk-Setup-${version}.${ext}"}
+  }
+}

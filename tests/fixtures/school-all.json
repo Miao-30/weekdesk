@@ -1,0 +1,32 @@
+{
+  "capturedAt": "2026-09-06T08:46:17.289Z",
+  "semester": "Demo Semester",
+  "semesterId": "demo-2026",
+  "startDate": "2026-08-31",
+  "selectedWeek": "all",
+  "hasExperiment": true,
+  "maxWeek": 19,
+  "periods": [
+    {"number":1,"start":"8:20","end":"9:00"}, {"number":2,"start":"9:10","end":"9:50"},
+    {"number":3,"start":"10:00","end":"10:40"}, {"number":4,"start":"10:50","end":"11:30"},
+    {"number":5,"start":"11:40","end":"12:20"}, {"number":6,"start":"14:00","end":"14:40"},
+    {"number":7,"start":"14:50","end":"15:30"}, {"number":8,"start":"15:40","end":"16:20"},
+    {"number":9,"start":"16:30","end":"17:10"}, {"number":10,"start":"18:30","end":"19:10"},
+    {"number":11,"start":"19:20","end":"20:00"}, {"number":12,"start":"20:10","end":"20:50"}
+  ],
+  "courses": [
+    {"name":"软件工程导论","code":"DEMO-101","day":1,"cellStart":1,"cellSpan":2,"lines":["(1~5,7~16周) (1-2节) 演示校区 A101  教师甲","Demo Class A"]},
+    {"name":"离散结构","code":"DEMO-102","day":2,"cellStart":1,"cellSpan":3,"lines":["(5~7(单),8~17周) (1-3节) 演示校区 A201  教师乙","Demo Class A; Demo Class B"]},
+    {"name":"项目实践","code":"DEMO-103","day":3,"cellStart":3,"cellSpan":3,"lines":["(12~14周) (3-5节)  教师丙","Demo Class A"]},
+    {"name":"数据结构示例","code":"DEMO-104","day":3,"cellStart":3,"cellSpan":3,"lines":["(1~5,7~9周) (3-5节) 演示校区 B202  教师丙","Demo Class A"]},
+    {"name":"网络系统","code":"DEMO-201","day":3,"cellStart":6,"cellSpan":3,"lines":["(1~3周) (6-8节) 演示校区 B102  教师丁","(4~5,7~17周) (6-8节) 演示校区 B102  教师戊","Demo Class A; Demo Class B"]},
+    {"name":"系统设计","code":"DEMO-202","day":4,"cellStart":6,"cellSpan":3,"lines":["(2周) (6-8节) 自定义教室： R-204  教师己","Demo Class A"]},
+    {"name":"系统设计","code":"DEMO-202","day":5,"cellStart":6,"cellSpan":3,"lines":["(1,3~5,7~17周) (6-8节) 演示校区 R-105  教师己","Demo Class A"]},
+    {"name":"晚间专题","code":"DEMO-301","day":5,"cellStart":10,"cellSpan":3,"lines":["(11~13周) (10-12节) 演示校区 C301  教师庚","Demo Class A"]}
+  ],
+  "unscheduled": [
+    {"code":"ONLINE-001","name":"示例网络课程一","raw":"公开演示课程，无固定上课时间。"},
+    {"code":"ONLINE-002","name":"示例网络课程二","raw":"公开演示课程，无固定上课时间。"},
+    {"code":"ONLINE-003","name":"示例网络课程三","raw":"公开演示课程，无固定上课时间。"}
+  ]
+}

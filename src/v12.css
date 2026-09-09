@@ -4,7 +4,7 @@ main{
   color:#343a3c;
   background:rgba(226,228,230,var(--surface-alpha));
   border:1px solid rgba(255,255,255,.62);
-  border-radius:8px;
+  border-radius:0;
   box-shadow:inset 0 1px rgba(255,255,255,.36);
 }
 .titlebar{height:34px;padding:0 9px;position:relative;border-bottom:1px solid #aeb4b744;background:#d7dadd66}
@@ -15,7 +15,7 @@ main{
 .main-nav button.active{color:#334e48}
 .main-nav button.active:after{left:12px;right:12px;height:2px;border-radius:0;background:#577e75}
 .main-nav b{top:2px;right:0;min-width:14px;height:14px;line-height:14px;font-size:8px;border-radius:2px;background:#a96663}
-.window-actions{gap:1px}
+.window-actions{gap:1px;margin-left:auto}
 .window-actions button{height:25px;min-width:27px;border-radius:2px;font-size:11px}
 .window-actions button span{font-size:9px}
 .window-actions button:hover,.window-actions .selected{background:#bdc4c6}
@@ -34,7 +34,7 @@ main{
 .problembar{margin:4px 9px 0;padding:5px 8px;border-radius:2px;font-size:9px}
 .compact-calendar{margin-top:3px}
 .calendar-scroll{margin-left:8px;margin-right:8px;padding:0 0 4px}
-.calendar-head,.calendar-body{grid-template-columns:54px repeat(7,minmax(0,1fr))}
+.calendar-head,.calendar-body{grid-template-columns:54px repeat(var(--day-count,7),minmax(0,1fr))}
 .calendar-head{min-height:32px;border-radius:0;background:#d8dbdd;border-bottom-color:#aeb5b8}
 .calendar-head>div{gap:0;font-size:10px;color:#656c6f;border-left:1px solid #b7bdc066}
 .calendar-head>div:first-child{border-left:0}
@@ -42,21 +42,24 @@ main{
 .calendar-head .today{border-radius:0;background:#c9d5d1;color:#315f54;box-shadow:inset 0 -2px #638d82}
 .calendar-head .time-label{font-size:8px;color:#7e8588}
 .calendar-head b,.calendar-head em{display:none}
-.period{gap:4px;padding-left:3px;border-top-color:#aeb5b844}
-.period b{font-size:12px;color:#697174}
-.period span{font-size:7px;color:#8b9295}
+.period{flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:1px 0;border-top-color:#aeb5b844;text-align:center}
+.period b{display:block;font-size:8px;line-height:1;color:#92999b;font-weight:500}
+.period span{display:block;font-size:10px;color:#50595c;line-height:1.2;font-weight:550}
 .day-column{border-left-color:#aeb5b855}
 .day-column.today{background:#becdc722}
 .grid-line{border-top-color:#aeb5b844}
 .break{border-top-color:#a3acae99}
 .course-group{margin:1px;gap:1px}
 .current-courses{gap:1px}
-.course{border-radius:1px;padding:5px 5px 4px;gap:2px;border-color:#ffffff4d;box-shadow:none;transition:filter .12s}
-.course strong{line-height:1.27;font-weight:620}
-.course-time{font-size:8px;letter-spacing:.1px}
-.room{font-size:calc(var(--base-font) - 1px);margin-top:2px}
-.teacher{font-size:calc(var(--base-font) - 2px)}
-.campus{font-size:8px}
+.course{border-radius:1px;padding:5px 5px 4px;gap:2px;border-color:#ffffff4d;box-shadow:none;transition:filter .12s;overflow:hidden;align-items:stretch}
+.course strong{font-size:clamp(7px,var(--base-font),18px);line-height:1.18;font-weight:650;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.course-time{font-size:clamp(6px,calc(var(--base-font) - 6px),9px);line-height:1.1;letter-spacing:.1px;opacity:.64}
+.room{font-size:clamp(7px,calc(var(--base-font) - 3px),13px);line-height:1.15;margin-top:2px;font-weight:650;overflow:hidden;text-overflow:ellipsis}
+.teacher{font-size:clamp(7px,calc(var(--base-font) - 4px),12px);line-height:1.15;overflow:hidden;text-overflow:ellipsis}
+.campus{font-size:clamp(6px,calc(var(--base-font) - 5px),10px);line-height:1.15;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.course.span-1{gap:1px;padding-top:3px;padding-bottom:3px}
+.course.span-1 strong{-webkit-line-clamp:2}
+.course.span-1 .campus{display:none}
 .mint{background:#c9ddd4;color:#355a4e}
 .blue{background:#cbd9e2;color:#425c6b}
 .lavender{background:#d6d2e1;color:#5f5874}
@@ -115,13 +118,93 @@ main{
 .todo-editor input,.todo-editor textarea,.todo-editor select{border-radius:2px;background:#f5f6f6;border-color:#bbc0c2}
 .editor-actions button,.editor-actions .primary,.settings>button:not(.modal-close),.primary{border-radius:3px}
 
+/* Dialogs follow the active page scale and always fit inside the window. */
+.schedule-view .modal,.settings.schedule{--dialog-scale:var(--schedule-dialog-scale,1);--dialog-font:var(--base-font,14px)}
+.todo-view .modal,.settings.todos{--dialog-scale:var(--todo-dialog-scale,1);--dialog-font:var(--todo-font,14px)}
+.modal-backdrop{padding:clamp(4px,2vw,16px)}
+.modal{width:min(max(270px,calc(540px * var(--dialog-scale,1))),calc(100vw - 8px));max-width:calc(100vw - 8px);max-height:calc(100vh - 8px);padding:max(10px,calc(24px * var(--dialog-scale,1)));overflow-x:hidden;font-size:clamp(7px,var(--dialog-font,13px),13px);border-radius:2px}
+.todo-editor{width:min(max(290px,calc(620px * var(--dialog-scale,1))),calc(100vw - 8px))}
+.modal-close{right:max(6px,calc(13px * var(--dialog-scale,1)));top:max(4px,calc(8px * var(--dialog-scale,1)));font-size:max(17px,calc(24px * var(--dialog-scale,1)))}
+.modal h2{font-size:max(14px,calc(22px * var(--dialog-scale,1)));margin:max(6px,calc(10px * var(--dialog-scale,1))) 0 max(10px,calc(20px * var(--dialog-scale,1)))}
+.modal .eyebrow{font-size:max(7px,calc(10px * var(--dialog-scale,1)))}
+.settings label{margin:max(8px,calc(18px * var(--dialog-scale,1))) 0;font-size:max(8px,var(--dialog-font,13px))}
+.settings input[type=range]{margin-top:max(5px,calc(10px * var(--dialog-scale,1)))}
+.settings p{font-size:max(7px,calc(11px * var(--dialog-scale,1)));line-height:1.5}
+.settings>button:not(.modal-close){padding:max(5px,calc(8px * var(--dialog-scale,1))) max(7px,calc(12px * var(--dialog-scale,1)));margin-top:max(5px,calc(10px * var(--dialog-scale,1)));font-size:max(8px,var(--dialog-font,13px))}
+.details article{padding:max(6px,calc(10px * var(--dialog-scale,1))) 0}
+.details h3{font-size:max(10px,calc(16px * var(--dialog-scale,1)));margin:8px 0}
+.details dl{grid-template-columns:max(48px,calc(76px * var(--dialog-scale,1))) 1fr;gap:max(5px,calc(10px * var(--dialog-scale,1)));font-size:max(7px,calc(11px * var(--dialog-scale,1)))}
+.details pre{font-size:max(7px,calc(10px * var(--dialog-scale,1)));line-height:1.5}
+.todo-editor>label,.form-grid label{gap:max(3px,calc(6px * var(--dialog-scale,1)));margin:max(7px,calc(12px * var(--dialog-scale,1))) 0;font-size:max(7px,calc(10px * var(--dialog-scale,1)))}
+.todo-editor input,.todo-editor textarea,.todo-editor select{padding:max(5px,calc(8px * var(--dialog-scale,1)));font-size:max(8px,var(--dialog-font,13px))}
+.editor-actions{gap:5px;margin-top:max(8px,calc(17px * var(--dialog-scale,1)))}
+.editor-actions button{padding:max(5px,calc(8px * var(--dialog-scale,1))) max(8px,calc(13px * var(--dialog-scale,1)))}
+
+/* Schedule and todos keep independent, persisted density settings. */
+.todo-view{font-size:var(--todo-font,14px)}
+.todo-sidebar h2{font-size:calc(16px * var(--todo-scale,1))}
+.todo-sidebar p{font-size:calc(9px * var(--todo-scale,1))}
+.todo-sidebar nav button,.tag-filter button{font-size:calc(10px * var(--todo-scale,1));padding:calc(7px * var(--todo-scale,1)) calc(8px * var(--todo-scale,1))}
+.todo-sidebar nav b,.tag-filter label{font-size:calc(8px * var(--todo-scale,1))}
+.todo-heading h1{font-size:max(13px,calc(19px * var(--todo-scale,1)))}
+.todo-heading .eyebrow{font-size:calc(8px * var(--todo-scale,1))}
+.new-task{font-size:calc(10px * var(--todo-scale,1));padding:calc(6px * var(--todo-scale,1)) calc(9px * var(--todo-scale,1))}
+.quick-add{height:max(28px,calc(34px * var(--todo-scale,1)))}
+.quick-add button{font-size:calc(16px * var(--todo-scale,1))}
+.quick-add input{font-size:calc(11px * var(--todo-scale,1))}
+.todo-tools input,.todo-tools select{font-size:calc(9px * var(--todo-scale,1));padding:calc(5px * var(--todo-scale,1)) calc(7px * var(--todo-scale,1))}
+.todo-card{min-height:max(34px,calc(48px * var(--todo-scale,1)));grid-template-columns:max(24px,calc(32px * var(--todo-scale,1))) minmax(0,1fr) minmax(52px,auto) max(27px,calc(34px * var(--todo-scale,1))) 25px}
+.todo-check{width:max(13px,calc(15px * var(--todo-scale,1)));height:max(13px,calc(15px * var(--todo-scale,1)));font-size:calc(9px * var(--todo-scale,1))}
+.todo-main{padding:calc(7px * var(--todo-scale,1)) calc(5px * var(--todo-scale,1))}
+.todo-main strong{font-size:max(7px,var(--todo-font,14px))}
+.todo-meta,.todo-main p,.priority-label{font-size:max(6px,calc(8px * var(--todo-scale,1)))}
+.todo-due{font-size:max(6px,calc(9px * var(--todo-scale,1)))}
+
+/* Cleaner todo hierarchy: quiet canvas, crisp rows, useful metadata. */
+.todo-view{background:#e2e5e6}
+.todo-sidebar{background:#d7dbdc;border-color:#b9c0c2;padding-right:9px}
+.todo-sidebar nav button,.tag-filter button{border-left:2px solid transparent;transition:background .12s,color .12s,border-color .12s}
+.todo-sidebar nav button:hover,.tag-filter button:hover{background:#cdd3d3}
+.todo-sidebar nav button.active,.tag-filter button.active{background:#c3cecb;border-left-color:#5f887d;color:#294c44}
+.todo-content{background:linear-gradient(180deg,#e8eaeb 0,#e3e6e7 100%)}
+.todo-heading h1{color:#30383a;letter-spacing:-.25px}
+.new-task{background:#567d74;color:#fff;border:1px solid #4d736a;box-shadow:0 1px 2px #273f391c}
+.new-task:hover{background:#486f66}
+.quick-add{background:#f2f4f4;border:1px solid #b9c1c2;box-shadow:inset 0 1px #fff9}
+.quick-add button{color:#4f8175;font-weight:500}
+.quick-add input::placeholder,.todo-tools input::placeholder{color:#8a9294}
+.todo-tools input,.todo-tools select{background:#eef0f1;border:1px solid #bdc3c5;color:#566063}
+.todo-tools input:focus,.todo-tools select:focus,.quick-add:focus-within{border-color:#6f968c;background:#f5f6f6}
+.todo-list{border-top:0;display:flex;flex-direction:column;gap:5px;padding-top:1px}
+.todo-card{min-height:max(42px,calc(54px * var(--todo-scale,1)));margin:0;border:1px solid #c5cbcc;border-left:3px solid #879f99;border-radius:3px;background:rgba(244,246,246,.86);box-shadow:0 1px 1px #3844450b;transition:background .12s,border-color .12s,transform .12s}
+.todo-card:hover{background:#f7f8f8;border-color:#adb7b7;transform:translateY(-1px)}
+.todo-card.priority-high{border-left-color:#b86562}
+.todo-card.priority-medium{border-left-color:#c39b55}
+.todo-card.done{background:#dde1e1;opacity:.68}
+.todo-check{border:1.5px solid #788887;border-radius:2px;background:#f7f8f8;transition:background .12s,border-color .12s}
+.todo-check:hover{border-color:#4e7c71;background:#e4ecea}
+.todo-card.done .todo-check{background:#668d83;border-color:#668d83}
+.todo-main strong{color:#323a3c;letter-spacing:-.1px}
+.todo-meta{gap:4px;margin-top:4px}
+.todo-meta span{padding:2px 5px;border:1px solid #ccd3d3;border-radius:2px;background:#e6e9e9;color:#6d7779}
+.todo-meta .course-chip{border-color:#b9cbc6;background:#dbe7e3;color:#416d62}
+.todo-main p{display:block;color:#7b8586;margin-top:4px}
+.todo-due{margin-right:4px;padding:3px 6px;border-radius:2px;background:#e0e4e4;color:#697375}
+.todo-due.overdue{background:#ead8d7;color:#9a4f4c}
+.priority-label{border:1px solid #c6cccc;background:#dfe3e3}
+.priority-label.high{border-color:#d3b2b0;background:#e7d5d4}
+.priority-label.medium{border-color:#d8c59e;background:#e8dfcd}
+.todo-delete{border-radius:2px;color:#8b9697}
+.todo-delete:hover{background:#ead8d7;color:#9a4f4c}
+.todo-empty>span{border-radius:50%;background:#cbd7d3;box-shadow:inset 0 0 0 1px #b6c8c2}
+
 @media(max-width:960px){
   main{--row:calc(58px * var(--font-scale,1))}
   .compactbar{height:45px;padding:4px 8px;grid-template-columns:minmax(52px,1fr) auto auto}
   .week-summary span,.week-summary small{display:none}
   .compact-actions{display:flex;gap:6px}
   .main-nav button{min-width:52px;padding:0 10px}
-  .calendar-head,.calendar-body{grid-template-columns:48px repeat(7,minmax(0,1fr))}
+  .calendar-head,.calendar-body{grid-template-columns:48px repeat(var(--day-count,7),minmax(0,1fr))}
   .course{padding:4px}
 }
 @media(max-width:900px){
@@ -133,4 +216,144 @@ main{
   .todo-heading h1{font-size:17px}
   .todo-card{grid-template-columns:28px minmax(0,1fr) minmax(62px,auto) 30px 22px}
   .todo-due{font-size:8px;padding:0 4px}
+}
+
+@media(max-width:620px){
+  .titlebar{height:30px;padding:0 5px}
+  .brand{display:none}
+  .main-nav{left:5px;transform:none}
+  .main-nav button{min-width:45px;padding:0 7px;font-size:10px}
+  .window-actions button{min-width:24px;height:23px}
+  .window-actions button span{display:none}
+  .compactbar{height:40px;min-height:40px;padding:3px 5px;grid-template-columns:minmax(50px,1fr) auto auto;gap:3px}
+  .week-summary{gap:3px}
+  .week-summary strong{font-size:12px}
+  .week-nav.compact button,.week-nav.compact select{height:23px;padding:0 5px;font-size:9px}
+  .compact-actions{gap:3px}
+  .compact-actions label{font-size:8px}
+  .calendar-scroll{margin-left:2px;margin-right:2px}
+  .calendar-head,.calendar-body{grid-template-columns:38px repeat(var(--day-count,7),minmax(0,1fr))}
+  .calendar-head{min-height:26px}
+  .calendar-head>div{font-size:8px}
+  .calendar-head .time-label{font-size:7px}
+  .period{display:flex;padding:1px 0}
+  .period b{display:none}
+  .period span{font-size:9px;line-height:1.2}
+  .course{padding:2px 1px}
+  .course-time,.campus{font-size:6px}
+  .compact-footer{height:25px;padding:2px 5px}
+  .unscheduled>span:last-child{display:none}
+  .todo-sidebar{padding:3px 5px}
+  .todo-sidebar nav button{min-width:54px;padding:4px 5px}
+  .todo-content{padding:5px 5px 0}
+  .todo-heading{min-height:28px}
+  .todo-heading h1{margin:0 0 4px}
+  .quick-add button{width:27px}
+  .todo-tools{padding:4px 0}
+  .todo-list{gap:3px}
+  .todo-card{grid-template-columns:24px minmax(0,1fr) minmax(48px,auto) 22px;border-radius:2px}
+  .priority-label{display:none}
+  .todo-delete{font-size:13px}
+  .modal-backdrop{padding:5px}
+  .modal{padding:16px 12px;max-height:96vh;border-radius:2px}
+  .modal h2{font-size:18px;margin:7px 0 12px}
+  .settings label{margin:12px 0}
+  .settings input[type=range]{margin-top:6px}
+}
+
+@media(max-width:420px){
+  .week-nav.compact select{display:none}
+  .compact-actions label{display:none}
+  .sync-pill{width:23px;padding:0;font-size:0;overflow:hidden}
+  .sync-pill i{margin:0}
+  .calendar-head,.calendar-body{grid-template-columns:32px repeat(var(--day-count,7),minmax(0,1fr))}
+  .course{justify-content:flex-start;padding:2px}
+  .course strong{font-size:clamp(6px,var(--base-font),14px);line-height:1.12;text-align:left}
+  .course .room{font-size:clamp(6px,calc(var(--base-font) - 2px),10px)}
+  .course .teacher{font-size:clamp(6px,calc(var(--base-font) - 3px),9px)}
+  .course .campus{font-size:clamp(6px,calc(var(--base-font) - 3px),8px)}
+  .course.span-1 .teacher,.course.span-1 .campus{display:none}
+  .course.inactive{justify-content:flex-start}
+  .course.inactive>span:not(.inactive-tag){display:none}
+  .inactive strong{font-size:max(6px,var(--base-font));text-align:left}
+  .todo-sidebar nav b{display:none}
+  .todo-sidebar nav button{min-width:48px;justify-content:center}
+  .todo-heading .eyebrow{display:none}
+  .new-task{padding:4px 6px}
+  .todo-tools{display:grid;grid-template-columns:1fr auto}
+}
+
+@media(max-width:350px){
+  .course.inactive .inactive-tag,.inactive-fold{font-size:0}
+  .inactive-fold:after{content:'…';font-size:8px}
+}
+
+@media(max-height:400px){
+  .compact-footer{display:none}
+  .todo-heading{display:flex;min-height:22px;justify-content:flex-end}
+  .todo-heading>div{display:none}
+  .todo-heading .new-task{width:23px;height:20px;padding:0;font-size:0}
+  .todo-heading .new-task:after{content:'＋';font-size:12px}
+  .todo-sidebar{padding-top:2px;padding-bottom:2px}
+  .todo-content{padding-top:3px}
+}
+
+/* Personalization: compact visual theme picker. */
+.theme-picker{border:0;padding:0;margin:0 0 12px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.theme-picker legend{grid-column:1/-1;padding:0;margin:0 0 5px;font-size:max(8px,var(--dialog-font,13px));color:#566063}
+.theme-picker button{min-width:0;display:grid;grid-template-columns:44px minmax(0,1fr);grid-template-rows:auto auto;padding:8px;text-align:left;border:1px solid #c7cdcf;border-radius:3px;background:#eef0f1;color:#394144}
+.theme-picker button.active{border-color:#568a7c;box-shadow:inset 0 0 0 1px #568a7c;background:#f7f9f8}
+.theme-picker button b{align-self:end;font-size:11px;font-weight:650}
+.theme-picker button small{font-size:8px;color:#7c8588;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.theme-preview{grid-row:1/3;width:35px;height:31px;display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:3px;border:1px solid #c7cdcf;background:#dfe2e3}
+.theme-preview i{display:block;border-radius:1px;background:#c9ddd4}
+.theme-preview i:nth-child(2){background:#cbd9e2}.theme-preview i:nth-child(3){background:#d6d2e1}.theme-preview i:nth-child(4){background:#e2d0d4}
+.theme-preview.bright{background:#fff}.theme-preview.bright i{background:#91e7c0}.theme-preview.bright i:nth-child(2){background:#8ed3ff}.theme-preview.bright i:nth-child(3){background:#c9acff}.theme-preview.bright i:nth-child(4){background:#ff9fbd}
+
+/* Bright pure-color skin inspired by compact desktop calendar widgets. */
+main[data-theme="bright"]{color:#263238;background:rgba(247,249,250,var(--surface-alpha));border-color:#d7dde0;box-shadow:none}
+main[data-theme="bright"] .titlebar{background:#fff;border-bottom-color:#d9dfe2}
+main[data-theme="bright"] .main-nav button{color:#657279}
+main[data-theme="bright"] .main-nav button.active{color:#087b67}
+main[data-theme="bright"] .main-nav button.active:after{background:#16a085}
+main[data-theme="bright"] .window-actions button:hover,main[data-theme="bright"] .window-actions .selected{background:#e6ecee}
+main[data-theme="bright"] .compactbar{background:#f3f6f7;border-bottom-color:#d7dde0}
+main[data-theme="bright"] .week-nav.compact button,main[data-theme="bright"] .week-nav.compact select{background:#fff;border-color:#d5dde0}
+main[data-theme="bright"] .sync-pill{background:#dff4ec;color:#16745f}
+main[data-theme="bright"] .calendar-head{background:#edf1f3;border-bottom-color:#cbd3d7}
+main[data-theme="bright"] .calendar-head>div,main[data-theme="bright"] .day-column{border-left-color:#d2d9dc}
+main[data-theme="bright"] .grid-line,main[data-theme="bright"] .period{border-top-color:#d7dde0}
+main[data-theme="bright"] .break{border-top-color:#b9c4c8}
+main[data-theme="bright"] .calendar-head .today{background:#d9f3eb;color:#08725f;box-shadow:inset 0 -2px #12a184}
+main[data-theme="bright"] .day-column.today{background:#e8faf544}
+main[data-theme="bright"] .mint{background:#9ce8c5;color:#174f40}
+main[data-theme="bright"] .blue{background:#a9dcfb;color:#1e506d}
+main[data-theme="bright"] .lavender{background:#ccb9f5;color:#514078}
+main[data-theme="bright"] .peach{background:#ffc89f;color:#74451f}
+main[data-theme="bright"] .rose{background:#f8b4c8;color:#713349}
+main[data-theme="bright"] .sand{background:#f7df83;color:#655416}
+main[data-theme="bright"] .course{border-color:#ffffffa8}
+main[data-theme="bright"] .course.inactive{background:#e5e9ea;color:#7b8589;border-color:#c8d0d3}
+main[data-theme="bright"] .inactive-fold{background:#e0e5e6;color:#687478}
+main[data-theme="bright"] .compact-footer{background:#f5f7f8;border-top-color:#d5dcdf}
+main[data-theme="bright"] .todo-view,main[data-theme="bright"] .todo-content{background:#f5f7f8}
+main[data-theme="bright"] .todo-sidebar{background:#edf2f3;border-color:#d4dcdf}
+main[data-theme="bright"] .todo-sidebar nav button.active,main[data-theme="bright"] .tag-filter button.active{background:#d9f1ea;border-left-color:#16a085;color:#086c5b}
+main[data-theme="bright"] .quick-add,main[data-theme="bright"] .todo-tools input,main[data-theme="bright"] .todo-tools select{background:#fff;border-color:#d3dbde}
+main[data-theme="bright"] .new-task{background:#16a085;border-color:#128872}
+main[data-theme="bright"] .new-task:hover{background:#0e8d75}
+main[data-theme="bright"] .todo-card{background:#fff;border-color:#d9e0e2;border-left-color:#4eb497;box-shadow:0 1px 2px #1f33400d}
+main[data-theme="bright"] .todo-card.priority-high{border-left-color:#ee6c79}
+main[data-theme="bright"] .todo-card.priority-medium{border-left-color:#efa940}
+main[data-theme="bright"] .todo-meta span{background:#f0f3f4;border-color:#dfe5e7}
+main[data-theme="bright"] .todo-meta .course-chip{background:#daf4eb;border-color:#bfe7da;color:#18725e}
+main[data-theme="bright"] .todo-due{background:#edf1f2}
+main[data-theme="bright"] .modal{background:#fff;border-color:#dce3e5}
+main[data-theme="bright"] .modal-backdrop{background:#34454c4a}
+
+@media(max-width:420px){
+  .theme-picker{gap:4px}
+  .theme-picker button{grid-template-columns:30px minmax(0,1fr);padding:5px}
+  .theme-preview{width:25px;height:26px;padding:2px}
+  .theme-picker button small{display:none}
 }

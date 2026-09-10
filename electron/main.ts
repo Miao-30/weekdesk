@@ -44,23 +44,6 @@ function getSchool(){
   school.on('close',event=>{if(!quitting){event.preventDefault();school?.hide();interactive=false;}});
   school.webContents.on('did-finish-load',()=>{
     const url=school?.webContents.getURL()??'';
-    if(url.startsWith(SCHOOL+'/student/login')){
-      // This student account uses the teaching system's own credentials. Keep the
-      // unsupported campus SSO choice out of the embedded login flow.
-      void school?.webContents.executeJavaScript(`(()=>{
-        const student=document.querySelector('input[name="login-terminal"][value="student"]');
-        if(student){student.checked=true;student.dispatchEvent(new Event('change',{bubbles:true}));}
-        const sso=[...document.querySelectorAll('a')].find(a=>a.getAttribute('href')==='/student/sso/login');
-        if(sso)sso.closest('.form-group')?.remove();
-        const fields=document.querySelector('.login-fields');
-        if(fields&&!document.querySelector('#weekdesk-login-tip')){
-          const tip=document.createElement('div');tip.id='weekdesk-login-tip';
-          tip.textContent='请使用教务系统学生账号登录；这里不是统一身份认证账号。';
-          tip.style.cssText='margin:0 0 14px;padding:10px 12px;background:#eef6f2;color:#356b5d;border-left:3px solid #4d8b79;font-size:14px';
-          fields.prepend(tip);
-        }
-      })()`).catch(()=>{});
-    }
     const authenticated=url.startsWith(SCHOOL+'/student/')&&!/\/student\/(?:login|sso\/login)(?:[/?#]|$)/.test(url);
     if(interactive&&authenticated){
       interactive=false;school?.hide();setTimeout(()=>void sync(),0);
@@ -130,7 +113,7 @@ async function sync(){
   }finally{busy=false;}
 }
 function clampPrefs(p:Partial<Preferences>):Preferences{
-  const next={...state.preferences,...Object.fromEntries(['topmost','autoStart','showInactive','showWeekend'].filter(k=>typeof p[k as keyof Preferences]==='boolean').map(k=>[k,p[k as keyof Preferences]])),opacity:typeof p.opacity==='number'&&Number.isFinite(p.opacity)?Math.min(1,Math.max(.72,p.opacity)):state.preferences.opacity,fontSize:typeof p.fontSize==='number'&&Number.isFinite(p.fontSize)?Math.min(18,Math.max(6,p.fontSize)):state.preferences.fontSize,todoFontSize:typeof p.todoFontSize==='number'&&Number.isFinite(p.todoFontSize)?Math.min(18,Math.max(6,p.todoFontSize)):state.preferences.todoFontSize};
+  const next={...state.preferences,...Object.fromEntries(['topmost','autoStart','showInactive','showWeekend','rememberLogin'].filter(k=>typeof p[k as keyof Preferences]==='boolean').map(k=>[k,p[k as keyof Preferences]])),opacity:typeof p.opacity==='number'&&Number.isFinite(p.opacity)?Math.min(1,Math.max(.72,p.opacity)):state.preferences.opacity,fontSize:typeof p.fontSize==='number'&&Number.isFinite(p.fontSize)?Math.min(18,Math.max(6,p.fontSize)):state.preferences.fontSize,todoFontSize:typeof p.todoFontSize==='number'&&Number.isFinite(p.todoFontSize)?Math.min(18,Math.max(6,p.todoFontSize)):state.preferences.todoFontSize};
   if(p.theme==='soft'||p.theme==='bright')next.theme=p.theme;
   if(['due','priority','created'].includes(String(p.todoSort)))next.todoSort=p.todoSort!;
   if(['today','upcoming','all','completed'].includes(String(p.todoFilter)))next.todoFilter=p.todoFilter!;
@@ -165,11 +148,12 @@ app.whenReady().then(()=>{
   handle('login',async()=>{
     if(busy)return;
     const win=getSchool();
-    // "重新登录" deliberately starts a clean local teaching-system session.
-    await win.webContents.session.clearStorageData({storages:['cookies']});
-    await win.webContents.session.clearCache();
+    if(!state.preferences.rememberLogin){
+      await win.webContents.session.clearStorageData({storages:['cookies']});
+      await win.webContents.session.clearCache();
+    }
     interactive=true;win.show();win.focus();
-    status('login','请使用教务系统学生账号登录；成功后会自动同步课表');
+    status('login','请在教务系统登录；成功后会自动同步课表');
     await win.loadURL(DIRECT_LOGIN);
   });
   handle('settings',(p:Partial<Preferences>)=>{if(!p||typeof p!=='object')return;state.preferences=clampPrefs(p);main.setAlwaysOnTop(state.preferences.topmost);app.setLoginItemSettings({openAtLogin:state.preferences.autoStart});persist();notify();trayMenu();});
